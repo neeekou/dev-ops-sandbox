@@ -1,8 +1,8 @@
 # dev-ops-sandbox
 
 # Must have installed:
-# Vagrant
-# VirtualBox
+Vagrant
+VirtualBox
 
 
 # vagrant commands
