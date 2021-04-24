@@ -1,0 +1,25 @@
+---
+- name: Configure PostgreSQL database
+  hosts: localhost
+  remote_user: vagrant
+
+  tasks:
+  - name: Start PostgreSQL database
+    service:
+      name: postgresql
+      state: started
+  
+  - block:
+    - name: Create a new database with name "projekt"
+      postgresql_db:
+        name: projekt
+
+    - name: Connect to "projekt" database, create service user and grant access to database
+      postgresql_user:
+        db: projekt
+        name: django
+        password: changeit
+        priv: "ALL"
+        expires: "infinity"
+
+    become_user: postgres
