@@ -13,3 +13,8 @@ vagrant ssh -c 'sudo yum -y update'
 vagrant ssh -c 'sudo shutdown now'
 vagrant up
 vagrant ssh
+
+# To start server
+sudo systemctl start postgresql
+cd /repos/Projekt_studia/projekt/src/baza
+python3 manage.py runserver 192.168.33.10:8000

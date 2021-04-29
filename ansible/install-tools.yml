@@ -40,3 +40,10 @@
     yum:
       name: python-beautifulsoup4
       state: latest
+
+  - name: Install Numpy libraries
+    yum:
+      name: python36-numpy-beautifulsoup4
+      state: latest
+
+      

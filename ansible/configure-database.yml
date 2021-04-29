@@ -65,6 +65,11 @@
         priv: "ALL"
         expires: "infinity"
 
+    - name: Make django user owner of database
+      postgresql_query:
+        db: projekt
+        path_to_script: /repos/Projekt_studia/baza/DB/grant_accesses.sql
+
     - name: Run queries from SQL script
       postgresql_query:
         db: projekt
