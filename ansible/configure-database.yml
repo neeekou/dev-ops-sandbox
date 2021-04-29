@@ -2,6 +2,9 @@
 - name: Configure PostgreSQL database
   hosts: localhost
   remote_user: vagrant
+  become: yes
+  become_method: sudo
+
 
   tasks:
   - name: Allow database access with password
@@ -21,11 +24,32 @@
       state: present
     register: postgresqlserver
 
-  - name: Start PostgreSQL database
+  - name: Allow database access with password for localhost IPv4
+    lineinfile:
+      path: /var/lib/pgsql/data/pg_hba.conf
+      regexp: '^host.*127.0.0.1/32.*ident'
+      line: 'host    all             all             127.0.0.1/32            md5'
+      state: present
+    register: postgresqlserver
+
+  - name: Allow database access with password for localhost IPv6
+    lineinfile:
+      path: /var/lib/pgsql/data/pg_hba.conf
+      regexp: '^host.*::1/128.*ident'
+      line: 'host    all             all             ::1/128                 md5'
+      state: present
+    register: postgresqlserver
+
+  - name: Restart PostgreSQL database if changed
     service:
       name: postgresql
       state: restarted
     when: postgresqlserver.changed
+    
+  - name: Ensure that PostgreSQL database is up
+    service:
+      name: postgresql
+      state: started
 
   - block:
     - name: Create a new database with name "projekt"
@@ -48,3 +72,4 @@
       when: newdatabase.changed
 
     become_user: postgres
+

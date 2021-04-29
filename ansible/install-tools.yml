@@ -2,13 +2,10 @@
 - name: Install required tools
   hosts: localhost
   remote_user: vagrant
+  become: yes
+  become_method: sudo
 
   tasks:
-  - name: Install VIM
-    yum:
-      name: vim
-      state: latest
-
   - name: Install Git
     yum:
       name: git
@@ -26,20 +23,20 @@
 
   - name: Install PostgreSQL tools
     yum:
-       name: postgresql,postgresql-contrib
+       name: postgresql,postgresql-contrib, python-psycopg2, python3-psycopg2
        state: latest
+
+  - name: Install Python3
+    yum:
+      name: python3
+      state: latest
 
   - name: Install Django libraries
     yum:
-      name: "python-django*"
+      name: "python3-django*"
       state: latest
 
   - name: Install BeautifulSoup libraries
     yum:
       name: python-beautifulsoup4
-      state: latest
-
-  - name: Install libraries required by Ansible
-    yum: 
-      name: python-psycopg2
       state: latest
